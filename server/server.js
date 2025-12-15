@@ -36,14 +36,33 @@ app.use(express.static(join(__dirname, '../public')));
 app.use('/uploads', express.static(UPLOAD_DIR));
 
 wss.on('connection', (ws) => {
+  ws.clientId = Math.random().toString(36).substring(7);
+  ws.isDisplayMode = false;
+  
   ws.send(JSON.stringify({ type: 'state', data: stateManager.getState() }));
 
   ws.on('message', async (message) => {
     try {
       const { type, data } = JSON.parse(message);
-      await handleCommand(type, data);
+      
+      if (type === 'setDisplayMode') {
+        ws.isDisplayMode = data.enabled;
+        if (data.enabled) {
+          stateManager.addDisplayClient(ws.clientId);
+        } else {
+          stateManager.removeDisplayClient(ws.clientId);
+        }
+      } else {
+        await handleCommand(type, data);
+      }
     } catch (error) {
       console.error('WebSocket message error:', error);
+    }
+  });
+
+  ws.on('close', () => {
+    if (ws.isDisplayMode) {
+      stateManager.removeDisplayClient(ws.clientId);
     }
   });
 });
@@ -128,7 +147,12 @@ app.post('/api/image', async (req, res) => {
     const filepath = join(UPLOAD_DIR, filename);
     
     writeFileSync(filepath, buffer);
-    
+
+    // Update state so display devices get the new image URL
+    stateManager.setState({ imageUrl: `/uploads/${filename}` });
+    // Force mode to image so display renders
+    await handleCommand('mode', { mode: 'image' });
+
     res.json({ success: true, url: `/uploads/${filename}` });
   } catch (error) {
     console.error('Image upload error:', error);

@@ -7,71 +7,117 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1 id="mode-title">Dashboard</h1>
-      <div id="status" class="status">Ready</div>
+  <div class="app controller-mode">
+    <header class="header">
+      <div class="header-left">
+        <h1 class="logo">Display</h1>
+        <span class="status-badge" id="connection-status">Connected</span>
+        <span class="power-status" id="power-status">On</span>
+      </div>
+      <div class="header-right">
+        <button class="info-btn" id="info-btn">ℹ</button>
+        <button class="display-mode-btn" id="display-mode-btn">Display Mode</button>
+      </div>
     </header>
 
-    <main>
-      <section class="now-playing" id="now-playing">
-        <div class="album-cover" id="album-cover"></div>
-        <div class="track-info">
-          <div class="track-title" id="track-title"></div>
-          <div class="track-artist" id="track-artist"></div>
+    <main class="main-content">
+      <section class="control-panel">
+        <h2 class="section-title">Control</h2>
+        
+        <div class="mode-buttons">
+          <button class="mode-btn music-btn" data-action="music">
+            <div class="btn-label">Music</div>
+          </button>
+          <button class="mode-btn airplay-btn" data-action="airplay">
+            <div class="btn-label">AirPlay</div>
+          </button>
+          <button class="mode-btn cast-btn" data-action="cast">
+            <div class="btn-label">Cast</div>
+          </button>
+          <button class="mode-btn image-btn" data-action="image">
+            <div class="btn-label">Image</div>
+          </button>
+          <button class="mode-btn power-btn" data-action="off">
+            <div class="power-switch" id="power-switch"></div>
+          </button>
+        </div>
+
+        <div class="sliders-section">
+          <div class="slider-control">
+            <span class="slider-label">Volume</span>
+            <input type="range" id="volume-slider" class="slider" min="0" max="100" value="50">
+          </div>
+
+          <div class="slider-control">
+            <span class="slider-label">Brightness</span>
+            <input type="range" id="brightness-slider" class="slider" min="0" max="100" value="75">
+          </div>
+
+          <button class="action-btn upload-btn" id="upload-btn" style="display:none;">Upload Image</button>
         </div>
       </section>
 
-      <section class="modes">
-        <button class="mode-btn" data-mode="dashboard">Dashboard</button>
-        <button class="mode-btn" data-mode="music">Music</button>
-        <button class="mode-btn" data-mode="airplay">AirPlay</button>
-        <button class="mode-btn" data-mode="cast">Cast</button>
-        <button class="mode-btn" data-mode="image">Image</button>
-        <button class="mode-btn" data-mode="off">Off</button>
-      </section>
-
-      <section class="controls">
-        <button id="sleep-btn" class="control-btn">Sleep</button>
-        <button id="upload-btn" class="control-btn">Upload Image</button>
-        <button id="schedule-btn" class="control-btn">Schedule</button>
+      <section class="display-content" id="display-content">
+        
       </section>
     </main>
   </div>
 
-  <div class="modal" id="upload-modal">
-    <div class="modal-content">
-      <h2>Upload Image</h2>
-      <input type="file" id="file-input" accept="image/*">
+  <!-- Image Upload Modal (controller only) -->
+  <div class="modal" id="image-modal">
+    <div class="modal-overlay" data-modal="image-modal"></div>
+    <div class="modal-content image-modal-content">
+      <div class="modal-header">
+        <h2>Upload Image</h2>
+        <button class="modal-close" data-modal="image-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="file" id="image-file-input" accept="image/*" class="file-input">
+        <label class="file-label" for="image-file-input">
+          <span class="file-text" id="file-selected-text">Choose Image</span>
+        </label>
+      </div>
       <div class="modal-actions">
-        <button id="upload-submit" class="control-btn">Upload</button>
-        <button id="upload-cancel" class="control-btn">Cancel</button>
+        <button class="modal-btn cancel-btn" data-modal="image-modal">Cancel</button>
+        <button class="modal-btn upload-submit-btn" id="image-send-btn">Send</button>
       </div>
     </div>
   </div>
 
-  <div class="modal" id="schedule-modal">
-    <div class="modal-content">
-      <h2>Schedule</h2>
-      <div class="schedule-form">
-        <label>
-          <span>Wake Time</span>
-          <input type="time" id="wake-time" value="07:00">
-        </label>
-        <label>
-          <span>Sleep Time</span>
-          <input type="time" id="sleep-time" value="23:00">
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" id="schedule-enabled">
-          <span>Enable Schedule</span>
-        </label>
+  <!-- System Info Modal -->
+  <div class="modal" id="info-modal">
+    <div class="modal-overlay" id="info-overlay"></div>
+    <div class="modal-content info-modal-content">
+      <div class="modal-header">
+        <h2>System Info</h2>
+        <button class="modal-close" data-modal="info-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="info-items">
+          <div class="info-item">
+            <span class="info-label">Current Mode</span>
+            <span class="info-value" id="info-mode">—</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Power</span>
+            <span class="info-value" id="info-power">—</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Connection</span>
+            <span class="info-value" id="info-connection">—</span>
+          </div>
+        </div>
       </div>
       <div class="modal-actions">
-        <button id="schedule-submit" class="control-btn">Save</button>
-        <button id="schedule-cancel" class="control-btn">Cancel</button>
+        <button class="modal-btn" data-modal="info-modal">Close</button>
       </div>
     </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Sending...</p>
   </div>
 
   <script src="/app.js"></script>

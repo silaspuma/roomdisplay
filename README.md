@@ -4,13 +4,16 @@ A minimal, full-stack control panel for wall-mounted smart displays. Black and w
 
 ## Features
 
+- **Display Mode**: Toggle between control panel and full-screen display view
 - **Mode Management**: Switch between dashboard, music, airplay, cast, image, and off modes
-- **Spotify Integration**: Real-time now playing information
+- **Spotify Integration**: Real-time now playing information with progress tracking
 - **Power Management**: System sleep/wake control
 - **Schedule**: Automated wake and sleep times
 - **Image Display**: Upload and display custom images
 - **WebSocket**: Real-time state synchronization
-- **Mobile-Friendly**: Works on phones and wall displays
+- **Mobile-Friendly**: Control your display from any device
+- **Smart Animations**: Send animations and loading indicators for all actions
+- **Connection Tracking**: Visual indication when displays are connected
 
 ## Tech Stack
 

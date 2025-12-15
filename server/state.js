@@ -4,6 +4,8 @@ export class StateManager {
       currentMode: 'dashboard',
       lastMode: null,
       isSleeping: false,
+      imageUrl: null,
+      displayDeviceConnected: false,
       spotify: {
         playing: false,
         title: '',
@@ -19,6 +21,7 @@ export class StateManager {
       }
     };
     this.listeners = [];
+    this.displayClients = new Set();
   }
 
   getState() {
@@ -68,5 +71,17 @@ export class StateManager {
 
   notifyListeners() {
     this.listeners.forEach(callback => callback(this.state));
+  }
+
+  addDisplayClient(clientId) {
+    this.displayClients.add(clientId);
+    this.state.displayDeviceConnected = this.displayClients.size > 0;
+    this.notifyListeners();
+  }
+
+  removeDisplayClient(clientId) {
+    this.displayClients.delete(clientId);
+    this.state.displayDeviceConnected = this.displayClients.size > 0;
+    this.notifyListeners();
   }
 }
