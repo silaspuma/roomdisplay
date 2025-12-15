@@ -1,0 +1,15 @@
+[Unit]
+Description=Room Display Control Panel
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/roomdisplay
+ExecStart=/usr/bin/node server/server.js
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

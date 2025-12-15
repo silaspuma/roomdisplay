@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Display Control</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 id="mode-title">Dashboard</h1>
+      <div id="status" class="status">Ready</div>
+    </header>
+
+    <main>
+      <section class="now-playing" id="now-playing">
+        <div class="album-cover" id="album-cover"></div>
+        <div class="track-info">
+          <div class="track-title" id="track-title"></div>
+          <div class="track-artist" id="track-artist"></div>
+        </div>
+      </section>
+
+      <section class="modes">
+        <button class="mode-btn" data-mode="dashboard">Dashboard</button>
+        <button class="mode-btn" data-mode="music">Music</button>
+        <button class="mode-btn" data-mode="airplay">AirPlay</button>
+        <button class="mode-btn" data-mode="cast">Cast</button>
+        <button class="mode-btn" data-mode="image">Image</button>
+        <button class="mode-btn" data-mode="off">Off</button>
+      </section>
+
+      <section class="controls">
+        <button id="sleep-btn" class="control-btn">Sleep</button>
+        <button id="upload-btn" class="control-btn">Upload Image</button>
+        <button id="schedule-btn" class="control-btn">Schedule</button>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="upload-modal">
+    <div class="modal-content">
+      <h2>Upload Image</h2>
+      <input type="file" id="file-input" accept="image/*">
+      <div class="modal-actions">
+        <button id="upload-submit" class="control-btn">Upload</button>
+        <button id="upload-cancel" class="control-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="schedule-modal">
+    <div class="modal-content">
+      <h2>Schedule</h2>
+      <div class="schedule-form">
+        <label>
+          <span>Wake Time</span>
+          <input type="time" id="wake-time" value="07:00">
+        </label>
+        <label>
+          <span>Sleep Time</span>
+          <input type="time" id="sleep-time" value="23:00">
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="schedule-enabled">
+          <span>Enable Schedule</span>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button id="schedule-submit" class="control-btn">Save</button>
+        <button id="schedule-cancel" class="control-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
